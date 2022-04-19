@@ -1,0 +1,10 @@
+{% extends 'myapp/base.html' %}
+
+{% block content %}
+   <h1>{{product.name}}</h1>
+   <h3>$ {{product.price}}</h3>
+   <h3>{{product.desc}}</h3>
+   <p>
+      <a href="{% url 'myapp:products' %}">Back</a>
+   </p>
+{% endblock %}
