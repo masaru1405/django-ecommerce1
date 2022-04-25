@@ -22,10 +22,10 @@
                </div>
                <div class="items-center flex space-x-1">
                   <a href="{% url 'myapp:products' %}" class="px-2 py-4 text-gray-500 font-semibold border-b-4 border-green-500">Home</a>
-                  <a href="#" class="px-2 py-4 text-gray-500 font-semibold">About</a>
-                  <a href="#" class="px-2 py-4 text-gray-500 font-semibold">Contact</a>
+                  <a href="{% url 'myapp:product_add' %}" class="px-2 py-4 text-gray-500 font-semibold">Post an Add</a>
+                  <a href="{% url 'myapp:products' %}" class="px-2 py-4 text-gray-500 font-semibold">View products</a>
                   {% if user.is_authenticated %}
-                     <a href="{% url 'users:logout' %}" class="px-40 py-4 text-gray-500 font-semibold">Logout</a>
+                     <a href="{% url 'users:logout' %}" class="px-20 py-4 text-gray-500 font-semibold">Logout</a>
                      <a href="{% url 'users:profile' %}" class="px-40 py-4 text-gray-500 font-semibold">Profile</a>
                   {% else %}
                      <a href="{% url 'users:login' %}" class="px-40 py-4 text-gray-500 font-semibold">Login</a>
