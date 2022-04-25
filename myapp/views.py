@@ -53,3 +53,11 @@ def product_delete(request, id):
       product.delete()
       return redirect('/myapp/products')
    return render(request, 'myapp/delete.html', context)
+
+@login_required
+def my_listings(request):
+   products = Product.objects.filter(seller_name=request.user)
+   context = {
+      'products': products
+   }
+   return render(request, 'myapp/mylistings.html', context)
