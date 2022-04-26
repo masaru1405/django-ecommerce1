@@ -3,6 +3,10 @@ from django.http import HttpResponse
 from .models import Product
 from django.contrib.auth.decorators import login_required
 
+##Class Based View##
+from django.views.generic import ListView, DetailView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
+
 def index(request):
    return HttpResponse("Hello World!")
 
@@ -11,10 +15,22 @@ def products(request):
    context = {'products': products}
    return render(request, 'myapp/index.html', context)
 
+#Class based views for above products views [ListView]
+""" class ProductListView(ListView):
+   model = Product
+   template_name = 'myapp/index.html'
+   context_object_name = 'products' """
+
 def product_detail(request, id):
    product = Product.objects.get(id=id)
    context = {'product': product}
    return render(request, 'myapp/detail.html', context)
+
+#Class based views for above product detail view [DetailView]
+""" class ProductDetailView(DetailView):
+   model = Product
+   template_name = 'myapp/detail.html'
+   context_object_name = 'product' """
 
 @login_required
 def product_add(request):
@@ -28,6 +44,11 @@ def product_add(request):
       product.save()
       return redirect('/myapp/products')
    return render(request, 'myapp/addproduct.html')
+
+#Class based view for creating a product
+""" class ProductCreateView(CreateView):
+   model = Product
+   fields = ['name', 'price', 'desc', 'images', 'seller_name'] """
 
 
 def product_update(request, id):
@@ -44,6 +65,12 @@ def product_update(request, id):
    }
    return render(request, 'myapp/updateproduct.html', context)
 
+#class based view for update a product
+""" class ProductUpdateView(UpdateView):
+   model = Product
+   fields = ['name', 'price', 'desc', 'images', 'seller_name']
+   template_name = 'myapp/product_update_form.html' """
+
 def product_delete(request, id):
    product = Product.objects.get(id=id)
    context = {
@@ -53,6 +80,11 @@ def product_delete(request, id):
       product.delete()
       return redirect('/myapp/products')
    return render(request, 'myapp/delete.html', context)
+
+#class based view for delete a product
+""" class ProductDelete(DeleteView):
+   product = Product
+   template_name = 'myapp/product_confirm_delete.html' """
 
 @login_required
 def my_listings(request):
