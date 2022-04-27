@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from .models import Product
 from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator
 
 ##Class Based View##
 from django.views.generic import ListView, DetailView
@@ -11,16 +12,28 @@ def index(request):
    return HttpResponse("Hello World!")
 
 def products(request):
-   products = Product.objects.all()
-   context = {'products': products}
+   page_obj = products = Product.objects.all()
+
+   #search
+   product_name = request.GET.get('product_name')
+   if product_name != '' and product_name is not None:
+      page_obj = products.filter(name__icontains=product_name)
+
+   #paginator
+   paginator = Paginator(page_obj, 3)
+   page_number = request.GET.get('page')
+   page_obj = paginator.get_page(page_number) #pega os objetos dessa página
+
+   context = {'page_obj': page_obj}
    return render(request, 'myapp/index.html', context)
 
 #Class based views for above products views [ListView]
 """ class ProductListView(ListView):
    model = Product
    template_name = 'myapp/index.html'
-   context_object_name = 'products' """
-
+   context_object_name = 'products'
+   paginate_by = 3
+ """
 def product_detail(request, id):
    product = Product.objects.get(id=id)
    context = {'product': product}
